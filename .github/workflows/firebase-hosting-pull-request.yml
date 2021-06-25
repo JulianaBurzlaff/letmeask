@@ -2,15 +2,30 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+"on": pull_request
 jobs:
   build_and_preview:
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+    if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+        env:
+          REACT_APP_API_KEY: "${{ secrets.REACT_APP_API_KEY }}"
+          REACT_APP_AUTH_DOMAIN: "${{ secrets.REACT_APP_AUTH_DOMAIN }}"
+          REACT_APP_DATABASE_URL: "${{ secrets.REACT_APP_DATABASE_URL }}"
+          REACT_APP_PROJECT_ID: "${{ secrets.REACT_APP_PROJECT_ID }}"
+          REACT_APP_STORAGE_BUCKET: "${{ secrets.REACT_APP_STORAGE_BUCKET }}"
+          REACT_APP_MESSAGING_SENDER_ID: "${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}"
+          REACT_APP_APP_ID: "${{ secrets.REACT_APP_APP_ID }}"
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LETMEASK_6A64C }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_LETMEASK_6A64C }}"
+          channelId: live
           projectId: letmeask-6a64c
