@@ -40,7 +40,7 @@ Você pode visualizar o layout do projeto através [desse link](https://www.figm
 
 Agora você pode acessar [`localhost:3000`](http://localhost:3000) do seu navegador.
 
-OBS: necessário criação de projeto no Firebase e configuração do arquivo firebase.ts.
+OBS: necessário criação de projeto no Firebase e configuração do arquivo .env.local conforme o exemplo disponível em env.example.
 
 ---
 
